@@ -22,6 +22,7 @@ private:
 
 private:
     CommandLineArgs args; // 命令行参数
+    std::string mode;
     std::vector<Trader> traders;
     std::vector<Stock> stocks;
     int current_timestamp = 0;

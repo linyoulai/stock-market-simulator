@@ -36,11 +36,13 @@ void Market::process_file_header() {
     std::cin >> junk >> num_stocks;
 
     // 输出看看是否接收成功：
+    DEBUGOUT("--------------file header---------------" << std::endl);
     DEBUGOUT("mode: " << mode << std::endl);
     DEBUGOUT("num_traders: " << num_traders << std::endl);
     DEBUGOUT("num_stocks: " << num_stocks << std::endl);
     
     // init traders and stocks
+    this->mode = mode;
     traders.resize(num_traders);
     stocks.resize(num_stocks);
     
@@ -60,6 +62,7 @@ void Market::process_file_header() {
         std::cin >> junk >> arrival_rate;
 
         // 输出看看是否接收成功：
+        DEBUGOUT("--------------IF PR mode---------------" << std::endl);
         DEBUGOUT("seed: " << seed << std::endl);
         DEBUGOUT("num_orders: " << num_orders << std::endl);
         DEBUGOUT("arrival_rate: " << arrival_rate << std::endl);
@@ -80,12 +83,101 @@ void Market::process_file_header() {
     }
 }
 
-// 到这行为止看看对不对！
 
+
+/*
+<TIMESTAMP> <BUY/SELL> T<TRADER_ID> S<STOCK_ID> $<PRICE> #<QUANTITY>
+0 BUY T1 S2 $100 #50
+At timestamp 0, trader 1 is willing to buy 50 shares of stock 2 for up to $100/share.
+*/
 void Market::process_orders(std::istream &inputStream) {
     // 处理订单，包括TL模式和PR模式
-    inputStream >> current_timestamp;
+    int timestamp;
+    std::string buy_or_sell;
+    char prefix_T, prefix_S, prefix_dollar, prefix_sharp;
+    int trader_id, stock_id, price, quantity;
     
+    while (inputStream >> timestamp >> buy_or_sell 
+        >> prefix_T >> trader_id >> prefix_S >> stock_id 
+        >> prefix_dollar >> price >> prefix_sharp >> quantity) {
+        // 输出看看是否接收成功：
+        DEBUGOUT("-------------------------------" << std::endl);
+        DEBUGOUT("timestamp: " << timestamp << std::endl);
+        DEBUGOUT("buy_or_sell: " << buy_or_sell << std::endl);
+        DEBUGOUT("trader_id: " << trader_id << std::endl);
+        DEBUGOUT("stock_id: " << stock_id << std::endl);
+        DEBUGOUT("price: " << price << std::endl);
+        DEBUGOUT("quantity: " << quantity << std::endl);
+
+        // --- 1. 输入验证 (直接根据项目规格) ---
+        // 只有 TL 模式需要检查，PR 模式保证是合法的
+        if (this->mode == "TL") {
+            if (timestamp < 0) {
+                std::cerr << "Error: Negative timestamp" << std::endl;
+                exit(1);
+            }
+            if (timestamp < this->current_timestamp) {
+                std::cerr << "Error: Decreasing timestamp" << std::endl;
+                exit(1);
+            }
+            if (trader_id < 0 || static_cast<size_t>(trader_id) >= traders.size()) {
+                std::cerr << "Error: Invalid trader ID" << std::endl;
+                exit(1);
+            }
+            if (stock_id < 0 || static_cast<size_t>(stock_id) >= stocks.size()) {
+                std::cerr << "Error: Invalid stock ID" << std::endl;
+                exit(1);
+            }
+            if (price <= 0) {
+                std::cerr << "Error: Invalid price" << std::endl;
+                exit(1);
+            }
+            if (quantity <= 0) {
+                std::cerr << "Error: Invalid quantity" << std::endl;
+                exit(1);
+            }
+        }
+        
+        // --- 2. 时间戳检查与中位数报告 ---
+        if (timestamp != this->current_timestamp) {
+            // 打印当前时间点的中位数报告
+            if (args.median) {
+                for (size_t i = 0; i < stocks.size(); i++) {
+                    stocks[i].print_median_report(this->current_timestamp);
+                }
+            }
+            // 更新当前时间点
+            this->current_timestamp = timestamp;
+        }
+
+        // --- 3. 创建并分派订单 ---
+        Order new_order;
+        new_order.timestamp = timestamp;
+        new_order.is_buy = (buy_or_sell == "BUY");
+        new_order.trader_id = trader_id;
+        new_order.stock_id = stock_id;
+        new_order.price = price;
+        new_order.quantity = quantity;
+        new_order.order_id = this->order_counter++;
+        // 输出订单看看
+        DEBUGOUT("-----------------" << std::endl);
+        DEBUGOUT("order_id: " << new_order.order_id << std::endl);
+        DEBUGOUT("timestamp: " << new_order.timestamp << std::endl);
+        DEBUGOUT("buy_or_sell: " << (new_order.is_buy ? "BUY" : "SELL") << std::endl);
+        DEBUGOUT("trader_id: " << new_order.trader_id << std::endl);
+        DEBUGOUT("stock_id: " << new_order.stock_id << std::endl);
+        DEBUGOUT("price: " << new_order.price << std::endl);
+        DEBUGOUT("quantity: " << new_order.quantity << std::endl);
+    
+        stocks[stock_id].process_order(new_order, traders, args.verbose, this->trades_completed);
+    }
+    // --- 循环结束后 ---
+    // 为最后一个交易时间点打印一次中位数报告
+    if (args.median) {
+        for (size_t i = 0; i < stocks.size(); i++) {
+            stocks[i].print_median_report(this->current_timestamp);
+        }
+    }
 }   
 
 void Market::print_final_reports() {

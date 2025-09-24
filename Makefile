@@ -71,6 +71,12 @@ OBJECTS     = $(SOURCES:%.cpp=%.o)
 # Default Flags
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic
 
+# make release - will compile sources with $(CXXFLAGS) and the -O3 flag also
+#                defines NDEBUG so that asserts will not check
+release: CXXFLAGS += -O3 -DNDEBUG
+release: $(EXECUTABLE)
+.PHONY: release
+
 # make debug - will compile sources with $(CXXFLAGS) -g3 and -fsanitize
 #              flags also defines DEBUG and _GLIBCXX_DEBUG
 debug: CXXFLAGS += -g3 -DDEBUG -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
@@ -78,11 +84,7 @@ debug:
 	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(EXECUTABLE)_debug
 .PHONY: debug
 
-# make release - will compile sources with $(CXXFLAGS) and the -O3 flag also
-#                defines NDEBUG so that asserts will not check
-release: CXXFLAGS += -O3 -DNDEBUG
-release: $(EXECUTABLE)
-.PHONY: release
+
 
 # make valgrind - will compile sources with $(CXXFLAGS) -g3 suitable for
 #                 CAEN or WSL (DOES NOT WORK ON MACOS).
