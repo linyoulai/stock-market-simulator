@@ -2,6 +2,7 @@
 #include "Market.h"
 #include "P2random.h"
 #include "debug.h"
+#include "Trader.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -36,7 +37,7 @@ void Market::process_file_header() {
     std::cin >> junk >> num_stocks;
 
     // 输出看看是否接收成功：
-    DEBUGOUT("--------------file header---------------" << std::endl);
+    DEBUGOUT("DEBUGOUT--------------file header---------------" << std::endl);
     DEBUGOUT("mode: " << mode << std::endl);
     DEBUGOUT("num_traders: " << num_traders << std::endl);
     DEBUGOUT("num_stocks: " << num_stocks << std::endl);
@@ -62,7 +63,7 @@ void Market::process_file_header() {
         std::cin >> junk >> arrival_rate;
 
         // 输出看看是否接收成功：
-        DEBUGOUT("--------------IF PR mode---------------" << std::endl);
+        DEBUGOUT("DEBUGOUT--------------IF PR mode---------------" << std::endl);
         DEBUGOUT("seed: " << seed << std::endl);
         DEBUGOUT("num_orders: " << num_orders << std::endl);
         DEBUGOUT("arrival_rate: " << arrival_rate << std::endl);
@@ -101,7 +102,7 @@ void Market::process_orders(std::istream &inputStream) {
         >> prefix_T >> trader_id >> prefix_S >> stock_id 
         >> prefix_dollar >> price >> prefix_sharp >> quantity) {
         // 输出看看是否接收成功：
-        DEBUGOUT("-------------------------------" << std::endl);
+        DEBUGOUT("DEBUGOUT--------------check input---------------" << std::endl);
         DEBUGOUT("timestamp: " << timestamp << std::endl);
         DEBUGOUT("buy_or_sell: " << buy_or_sell << std::endl);
         DEBUGOUT("trader_id: " << trader_id << std::endl);
@@ -139,7 +140,7 @@ void Market::process_orders(std::istream &inputStream) {
         }
         
         // --- 2. 时间戳检查与中位数报告 ---
-        if (timestamp != this->current_timestamp) {
+        if (timestamp > this->current_timestamp) {
             // 打印当前时间点的中位数报告
             if (args.median) {
                 for (size_t i = 0; i < stocks.size(); i++) {
@@ -160,7 +161,7 @@ void Market::process_orders(std::istream &inputStream) {
         new_order.quantity = quantity;
         new_order.order_id = this->order_counter++;
         // 输出订单看看
-        DEBUGOUT("-----------------" << std::endl);
+        DEBUGOUT("DEBUGOUT--------------one order info--------" << std::endl);
         DEBUGOUT("order_id: " << new_order.order_id << std::endl);
         DEBUGOUT("timestamp: " << new_order.timestamp << std::endl);
         DEBUGOUT("buy_or_sell: " << (new_order.is_buy ? "BUY" : "SELL") << std::endl);
@@ -182,4 +183,53 @@ void Market::process_orders(std::istream &inputStream) {
 
 void Market::print_final_reports() {
     // 打印最终报告，包括股票价格、交易记录等
+    DEBUGOUT("DEBUGOUT--------------final report---------------" << std::endl);
+    print_summary_output();
+    if (args.trader_info) {
+        print_trader_info_output();
+    }
+    if (args.time_traveler) {
+        print_time_traveler_output();
+    }
+}
+
+
+/*
+---End of Day---
+Trades Completed: 5
+*/
+void Market::print_summary_output() {
+    // 打印摘要报告
+    DEBUGOUT("DEBUGOUT--------------summary report---------------" << std::endl);
+    std::cout << "---End of Day---" << std::endl;
+    std::cout << "Trades Completed: " << this->trades_completed << std::endl;
+}
+
+/*
+---Trader Info---
+Trader 0 bought 0 and sold 44 for a net transfer of $1571
+Trader 1 bought 43 and sold 11 for a net transfer of $-1866
+Trader 2 bought 50 and sold 38 for a net transfer of $295
+*/
+void Market::print_trader_info_output() {
+    // 打印交易员信息报告
+    DEBUGOUT("DEBUGOUT--------------trader info report---------------" << std::endl);
+    std::cout << "---Trader Info---" << std::endl;
+    for (size_t i = 0; i < traders.size(); i++) {
+        traders[i].print_report((int)i);
+    }
+}
+
+/*
+---Time Travelers---
+A time traveler would buy Stock 0 at time 1 for $56 and sell it at time 2 for $73
+A time traveler could not make a profit on Stock 1
+*/
+void Market::print_time_traveler_output() {
+    // 打印时间旅行报告
+    DEBUGOUT("DEBUGOUT--------------time traveler report---------------" << std::endl);
+    std::cout << "---Time Travelers---" << std::endl;
+    for (const auto &stock : stocks) {
+        stock.print_time_traveler_report();
+    }
 }

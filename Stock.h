@@ -13,9 +13,10 @@ public:
 
     void process_order(const Order& new_order, std::vector<Trader>& traders, bool verbose, long long& trades_completed);
     void print_median_report(int timestamp) const;
-    void print_time_traveler_report(const int stock_id) const;
+    void print_time_traveler_report() const;
 
 private:
+    int stock_id;
 
     // 两个优先队列，存储订单
     std::priority_queue<Order, std::vector<Order>, BuyOrderComparator> buy_orders_queue;

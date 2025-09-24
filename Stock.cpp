@@ -14,7 +14,8 @@ void Stock::print_median_report(int timestamp) const {
     std::cout << "Median report for stock " << timestamp << std::endl;
 }
 
-void Stock::print_time_traveler_report(const int stock_id) const {
+void Stock::print_time_traveler_report() const {
     // 打印当前股票的时间旅行者报告
-    std::cout << "Time traveler report for stock " << stock_id << std::endl;
+    time_traveler.print_report(stock_id);
+    
 }

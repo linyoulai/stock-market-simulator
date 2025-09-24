@@ -17,8 +17,12 @@ private:
     void process_file_header();
     // 开始处理订单，这里TL模式和PR模式是一样的
     void process_orders(std::istream &inputStream);
+
     // 闭市，打印今日报告
     void print_final_reports();
+    void print_summary_output();// 打印摘要报告
+    void print_trader_info_output();// 打印交易员信息报告
+    void print_time_traveler_output();// 打印时间旅行报告
 
 private:
     CommandLineArgs args; // 命令行参数
