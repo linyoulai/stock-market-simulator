@@ -17,9 +17,9 @@ public:
     void print_time_traveler_report() const;
 
     bool check_match(Order& new_order, std::vector<Trader>& traders, const CommandLineArgs& args);
+    int stock_id;
 
 private:
-    int stock_id;
 
     // 两个优先队列，存储订单
     std::priority_queue<Order, std::vector<Order>, BuyOrderComparator> buy_orders_queue;

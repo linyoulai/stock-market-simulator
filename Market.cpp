@@ -176,6 +176,7 @@ void Market::process_orders(std::istream &inputStream) {
         DEBUGOUT("price: " << new_order.price << std::endl);
         DEBUGOUT("quantity: " << new_order.quantity << std::endl);
     
+        stocks[stock_id].stock_id = stock_id;
         stocks[stock_id].process_order(new_order, traders, args, this->trades_completed);
     }
     // --- 循环结束后 ---
