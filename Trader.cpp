@@ -4,12 +4,12 @@
 
 void Trader::record_buy(const int quantity, const int price) {
     buy_quantity += quantity;
-    net_transfer += quantity * price;
+    net_transfer -= quantity * price;
 }
 
 void Trader::record_sell(const int quantity, const int price) {
     sell_quantity += quantity;
-    net_transfer -= quantity * price;
+    net_transfer += quantity * price;
 }
 
 void Trader::print_report(const int trader_id) const {

@@ -41,7 +41,13 @@ void Market::process_file_header() {
     DEBUGOUT("mode: " << mode << std::endl);
     DEBUGOUT("num_traders: " << num_traders << std::endl);
     DEBUGOUT("num_stocks: " << num_stocks << std::endl);
-    
+
+    /*
+    std::cout << "mode: " << mode << std::endl;
+    std::cout << "num_traders: " << num_traders << std::endl;
+    std::cout << "num_stocks: " << num_stocks << std::endl;
+    */
+
     // init traders and stocks
     this->mode = mode;
     traders.resize(num_traders);
@@ -74,10 +80,12 @@ void Market::process_file_header() {
 
     // Call the function with either the stringstream produced by PR_init()
     // or cin
-    if (mode == "PR")
+    if (mode == "PR") {
         this->process_orders(ss);  // This is a separate function you must write
-    else if (mode == "TL")
+    }
+    else if (mode == "TL") {
         this->process_orders(std::cin); 
+    }
     else {
         std::cerr << "Error: Invalid mode. Please use 'PR' or 'TL'." << std::endl;
         exit(1);
@@ -138,7 +146,6 @@ void Market::process_orders(std::istream &inputStream) {
                 exit(1);
             }
         }
-        
         // --- 2. 时间戳检查与中位数报告 ---
         if (timestamp > this->current_timestamp) {
             // 打印当前时间点的中位数报告
@@ -150,7 +157,6 @@ void Market::process_orders(std::istream &inputStream) {
             // 更新当前时间点
             this->current_timestamp = timestamp;
         }
-
         // --- 3. 创建并分派订单 ---
         Order new_order;
         new_order.timestamp = timestamp;
@@ -170,7 +176,7 @@ void Market::process_orders(std::istream &inputStream) {
         DEBUGOUT("price: " << new_order.price << std::endl);
         DEBUGOUT("quantity: " << new_order.quantity << std::endl);
     
-        stocks[stock_id].process_order(new_order, traders, args.verbose, this->trades_completed);
+        stocks[stock_id].process_order(new_order, traders, args, this->trades_completed);
     }
     // --- 循环结束后 ---
     // 为最后一个交易时间点打印一次中位数报告

@@ -24,7 +24,7 @@ private:
     void print_trader_info_output();// 打印交易员信息报告
     void print_time_traveler_output();// 打印时间旅行报告
 
-private:
+    
     CommandLineArgs args; // 命令行参数
     std::string mode;
     std::vector<Trader> traders;

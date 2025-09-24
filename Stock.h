@@ -4,6 +4,7 @@
 #include "Order.h"
 #include "Trader.h"
 #include "TimeTraveler.h"
+#include "CommandLine.h"
 #include <queue>
 #include <vector>
 #include <functional>
@@ -11,9 +12,11 @@
 class Stock {
 public:
 
-    void process_order(const Order& new_order, std::vector<Trader>& traders, bool verbose, long long& trades_completed);
+    void process_order(const Order& new_order, std::vector<Trader>& traders, const CommandLineArgs& args, long long& trades_completed);
     void print_median_report(int timestamp) const;
     void print_time_traveler_report() const;
+
+    bool check_match(Order& new_order, std::vector<Trader>& traders, const CommandLineArgs& args);
 
 private:
     int stock_id;
