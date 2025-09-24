@@ -1,0 +1,8 @@
+Processing orders...
+Trader 1 purchased 19 shares of Stock 0 from Trader 2 for $56/share
+Trader 2 purchased 39 shares of Stock 0 from Trader 0 for $34/share
+Trader 1 purchased 19 shares of Stock 1 from Trader 2 for $49/share
+Trader 1 purchased 5 shares of Stock 1 from Trader 0 for $49/share
+Trader 2 purchased 11 shares of Stock 0 from Trader 1 for $34/share
+---End of Day---
+Trades Completed: 5

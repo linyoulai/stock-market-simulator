@@ -1,0 +1,20 @@
+Processing orders...
+Trader 1 purchased 19 shares of Stock 0 from Trader 2 for $56/share
+Trader 2 purchased 39 shares of Stock 0 from Trader 0 for $34/share
+Median match price of Stock 0 at time 2 is $45
+Trader 1 purchased 19 shares of Stock 1 from Trader 2 for $49/share
+Trader 1 purchased 5 shares of Stock 1 from Trader 0 for $49/share
+Median match price of Stock 0 at time 3 is $45
+Median match price of Stock 1 at time 3 is $49
+Trader 2 purchased 11 shares of Stock 0 from Trader 1 for $34/share
+Median match price of Stock 0 at time 4 is $34
+Median match price of Stock 1 at time 4 is $49
+---End of Day---
+Trades Completed: 5
+---Trader Info---
+Trader 0 bought 0 and sold 44 for a net transfer of $1571
+Trader 1 bought 43 and sold 11 for a net transfer of $-1866
+Trader 2 bought 50 and sold 38 for a net transfer of $295
+---Time Travelers---
+A time traveler would buy Stock 0 at time 1 for $56 and sell it at time 2 for $73
+A time traveler could not make a profit on Stock 1

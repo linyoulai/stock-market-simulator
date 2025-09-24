@@ -1,0 +1,7 @@
+COMMENT: Spec Example, PR mode generating the same 12 orders.
+MODE: PR
+NUM_TRADERS: 3
+NUM_STOCKS: 2
+RANDOM_SEED: 104
+NUMBER_OF_ORDERS: 12
+ARRIVAL_RATE: 10

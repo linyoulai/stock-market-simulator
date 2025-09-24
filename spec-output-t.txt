@@ -1,0 +1,6 @@
+Processing orders...
+---End of Day---
+Trades Completed: 5
+---Time Travelers---
+A time traveler would buy Stock 0 at time 1 for $56 and sell it at time 2 for $73
+A time traveler could not make a profit on Stock 1
