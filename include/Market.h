@@ -1,9 +1,9 @@
 #ifndef MARKET_H
 #define MARKET_H
 
-#include "CommandLine.h"
-#include "Stock.h"
-#include "Trader.h"
+#include "./CommandLine.h"
+#include "./Stock.h"
+#include "./Trader.h"
 #include <vector>
 #include <string>
 
@@ -29,8 +29,9 @@ private:
     std::string mode;
     std::vector<Trader> traders;
     std::vector<Stock> stocks;
-    int current_timestamp = 0;
-    long long trades_completed = 0;
+    int current_timestamp = 0; // int 32bit
+
+    long long trades_completed = 0; // 64bit
     long long order_counter = 0; // 用于生成唯一的订单ID
 };
 

@@ -1,7 +1,7 @@
-#include "Stock.h"
-#include "CommandLine.h"
-#include "debug.h"
-#include "Trader.h"
+#include "./include/Stock.h"
+#include "./include/CommandLine.h"
+#include "./include/debug.h"
+#include "./include/Trader.h"
 #include <iostream>
 
 void Stock::process_order(const Order& new_order_const, std::vector<Trader>& traders, const CommandLineArgs& args, long long& trades_completed) {
@@ -17,24 +17,6 @@ void Stock::process_order(const Order& new_order_const, std::vector<Trader>& tra
     if (is_match) {
         trades_completed++;
     }
-    /*
-    // 如果成交，把价格加入中位数队列
-    if (is_match && args.median) {
-        if (new_order.price < lower_prices_queue.top()) {
-            lower_prices_queue.push(new_order.price);
-        } else {
-            higher_prices_queue.push(new_order.price);
-        }
-        // 保持低价队列元素个数大于等于高价队列，最多大1
-        if (lower_prices_queue.size() > higher_prices_queue.size() + 1) {
-            higher_prices_queue.push(lower_prices_queue.top());
-            lower_prices_queue.pop();
-        } else if (higher_prices_queue.size() > lower_prices_queue.size()) {
-            lower_prices_queue.push(higher_prices_queue.top());
-            higher_prices_queue.pop();
-        }
-    }
-    */
 }
 
 bool Stock::check_match(Order& new_order, std::vector<Trader>& traders, const CommandLineArgs& args) {

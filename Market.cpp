@@ -1,8 +1,8 @@
 // Market.cpp
-#include "Market.h"
-#include "P2random.h"
-#include "debug.h"
-#include "Trader.h"
+#include "./include/Market.h"
+#include "./include/P2random.h"
+#include "./include/debug.h"
+#include "./include/Trader.h"
 #include <iostream>
 #include <string>
 #include <sstream>

@@ -7,7 +7,7 @@
 #include "CommandLine.h"
 #include <queue>
 #include <vector>
-#include <functional>
+#include <functional>//
 
 class Stock {
 public:

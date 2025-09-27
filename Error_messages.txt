@@ -1,0 +1,19 @@
+Everything below the line of dashes is a valid error message.
+If an input is valid (not one of the INV test cases) and you
+output one of these allowed error messages, the autograder
+will show you the error message, which will help you with
+debugging.
+
+If you want, you can have a custom, second line after the first.
+The autograder will not display it, but it might help you with
+your own debugging.  For example:
+    cerr << "Error: Invalid stock ID" << endl;
+    cerr << "  The invalid id is " << stockID << end;
+-------------------------------------------------------------
+Error: Unknown command line option
+Error: Negative timestamp
+Error: Decreasing timestamp
+Error: Invalid trader ID
+Error: Invalid stock ID
+Error: Invalid price
+Error: Invalid quantity

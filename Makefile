@@ -24,7 +24,7 @@ SHELL = /bin/bash
 # TODO (begin) #
 #######################
 # Change 'youruniqname' to match your UM uniqname (no quote marks).
-UNIQNAME    = lyl
+UNIQNAME    = youruniqname
 
 # Change the right hand side of the identifier to match the project identifier
 # given in the project or lab specification.
@@ -71,12 +71,6 @@ OBJECTS     = $(SOURCES:%.cpp=%.o)
 # Default Flags
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic
 
-# make release - will compile sources with $(CXXFLAGS) and the -O3 flag also
-#                defines NDEBUG so that asserts will not check
-release: CXXFLAGS += -O3 -DNDEBUG
-release: $(EXECUTABLE)
-.PHONY: release
-
 # make debug - will compile sources with $(CXXFLAGS) -g3 and -fsanitize
 #              flags also defines DEBUG and _GLIBCXX_DEBUG
 debug: CXXFLAGS += -g3 -DDEBUG -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
@@ -84,7 +78,11 @@ debug:
 	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(EXECUTABLE)_debug
 .PHONY: debug
 
-
+# make release - will compile sources with $(CXXFLAGS) and the -O3 flag also
+#                defines NDEBUG so that asserts will not check
+release: CXXFLAGS += -O3 -DNDEBUG
+release: $(EXECUTABLE)
+.PHONY: release
 
 # make valgrind - will compile sources with $(CXXFLAGS) -g3 suitable for
 #                 CAEN or WSL (DOES NOT WORK ON MACOS).
@@ -103,7 +101,7 @@ profile:
 #               on the autograder
 static:
 	cppcheck --enable=all --suppress=missingIncludeSystem \
-	$(SOURCES) *.h *.hpp
+      $(SOURCES) *.h *.hpp
 .PHONY: static
 
 # name of the tarballs created for submission
@@ -112,7 +110,7 @@ PARTIAL_SUBMITFILE = partialsubmit.tar.gz
 UNGRADED_SUBMITFILE = ungraded.tar.gz
 
 # These files are excluded when checking for project identifier (no spaces!)
-NO_IDENTIFIER = xcode_redirect.hpp,getopt.h,getopt.c,xgetopt.h,P2random.h
+NO_IDENTIFIER = xcode_redirect.hpp,getopt.h,getopt.c,xgetopt.h
 
 # make identifier - will check to ensure that all source code and header files
 #                   include the project identifier, skip subdirectories
@@ -120,11 +118,11 @@ NO_IDENTIFIER = xcode_redirect.hpp,getopt.h,getopt.c,xgetopt.h,P2random.h
 identifier: $(foreach tsrc,$(wildcard test*.cpp),$(eval NO_IDENTIFIER := $(NO_IDENTIFIER),$(tsrc)))
 identifier:
 	@if [ $$(grep --include=*.{h,hpp,c,cpp} --exclude={$(NO_IDENTIFIER)} --directories=skip -L $(IDENTIFIER) * | wc -l) -ne 0 ]; then \
-	printf "Missing project identifier in file(s): "; \
-	echo `grep --include=*.{h,hpp,c,cpp} --exclude={$(NO_IDENTIFIER)} --directories=skip -L $(IDENTIFIER) *`; \
-	exit 1; \
+		printf "Missing project identifier in file(s): "; \
+		echo `grep --include=*.{h,hpp,c,cpp} --exclude={$(NO_IDENTIFIER)} --directories=skip -L $(IDENTIFIER) *`; \
+		exit 1; \
 	else \
-	rm -f $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE); \
+		rm -f $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE); \
 	fi
 .PHONY: identifier
 
@@ -150,15 +148,15 @@ endif
 TESTS       = $(TESTSOURCES:%.cpp=%)
 # Automatically generate any build rules for test*.cpp files
 define make_tests
-	ifeq ($$(PROJECTFILE),)
-	@echo Edit PROJECTFILE variable to .cpp file with main\(\)
-	@exit 1
-	endif
-	SRCS = $$(filter-out $$(PROJECTFILE), $$(SOURCES))
-	OBJS = $$(SRCS:%.cpp=%.o)
-	HDRS = $$(wildcard *.h *.hpp)
-	$(1): CXXFLAGS += -g3 -DDEBUG
-	$(1): $$(OBJS) $$(HDRS) $(1).cpp
+    ifeq ($$(PROJECTFILE),)
+	    @echo Edit PROJECTFILE variable to .cpp file with main\(\)
+	    @exit 1
+    endif
+    SRCS = $$(filter-out $$(PROJECTFILE), $$(SOURCES))
+    OBJS = $$(SRCS:%.cpp=%.o)
+    HDRS = $$(wildcard *.h *.hpp)
+    $(1): CXXFLAGS += -g3 -DDEBUG
+    $(1): $$(OBJS) $$(HDRS) $(1).cpp
 	$$(CXX) $$(CXXFLAGS) $$(OBJS) $(1).cpp -o $(1)
 endef
 $(foreach test, $(TESTS), $(eval $(call make_tests, $(test))))
@@ -171,7 +169,7 @@ clean:
 	rm -Rf *.dSYM
 	rm -f $(OBJECTS) $(EXECUTABLE) $(EXECUTABLE)_debug
 	rm -f $(EXECUTABLE)_valgrind $(EXECUTABLE)_profile $(TESTS) perf.data* \
-	$(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE)
+      $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE)
 .PHONY: clean
 
 # Files that should not be included in a tarball
@@ -180,7 +178,7 @@ EXCLUDE_FILES = getopt.\?
 # get a list of all files that might be included in a submit
 # different submit types can do additional filtering to remove unwanted files
 FULL_SUBMITFILES=$(filter-out $(wildcard test*.cpp), \
-	$(wildcard Makefile *.h *.hpp *.cpp test*.txt))
+                   $(wildcard Makefile *.h *.hpp *.cpp test*.txt))
 
 # make fullsubmit.tar.gz - cleans, creates tarball including test files
 $(FULL_SUBMITFILE): $(FULL_SUBMITFILES)
@@ -193,7 +191,7 @@ PARTIAL_SUBMITFILES=$(filter-out $(wildcard test*.txt), $(FULL_SUBMITFILES))
 $(PARTIAL_SUBMITFILE): $(PARTIAL_SUBMITFILES)
 	rm -f $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE)
 	COPYFILE_DISABLE=true tar --exclude=$(EXCLUDE_FILES) -vczf $(PARTIAL_SUBMITFILE) \
-	$(PARTIAL_SUBMITFILES)
+      $(PARTIAL_SUBMITFILES)
 	@echo !!! WARNING: No test files included. Use 'make fullsubmit' to include test files. !!!
 
 # make ungraded.tar.gz - cleans, creates tarball omitting test files, Makefile
@@ -202,7 +200,7 @@ $(UNGRADED_SUBMITFILE): $(UNGRADED_SUBMITFILES)
 	rm -f $(PARTIAL_SUBMITFILE) $(FULL_SUBMITFILE) $(UNGRADED_SUBMITFILE)
 	@touch __ungraded
 	COPYFILE_DISABLE=true tar --exclude=$(EXCLUDE_FILES) -vczf $(UNGRADED_SUBMITFILE) \
-	$(UNGRADED_SUBMITFILES) __ungraded
+      $(UNGRADED_SUBMITFILES) __ungraded
 	@rm -f __ungraded
 	@echo !!! WARNING: This submission will not be graded. !!!
 
@@ -214,89 +212,89 @@ ungraded: identifier $(UNGRADED_SUBMITFILE)
 
 # REMOTE_PATH has default definition above
 sync2caen:
-ifeq ($(UNIQNAME), lyl)
+ifeq ($(UNIQNAME), youruniqname)
 	@echo Edit UNIQNAME variable in Makefile.
 	@exit 1;
 endif
 	# Synchronize local files into target directory on CAEN
 	rsync \
-	-av \
-	--delete \
-	--exclude '*.o' \
-	--exclude '$(EXECUTABLE)' \
-	--exclude '$(EXECUTABLE)_debug' \
-	--exclude '$(EXECUTABLE)_valgrind' \
-	--exclude '$(EXECUTABLE)_profile' \
-	--exclude '.git*' \
-	--exclude '.vs*' \
-	--exclude '*.code-workspace' \
-	--filter=":- .gitignore" \
-	"."/ \
-	"$(UNIQNAME)@login-course.engin.umich.edu:$(REMOTE_PATH)/"
+      -av \
+      --delete \
+      --exclude '*.o' \
+      --exclude '$(EXECUTABLE)' \
+      --exclude '$(EXECUTABLE)_debug' \
+      --exclude '$(EXECUTABLE)_valgrind' \
+      --exclude '$(EXECUTABLE)_profile' \
+      --exclude '.git*' \
+      --exclude '.vs*' \
+      --exclude '*.code-workspace' \
+      --filter=":- .gitignore" \
+      "."/ \
+      "$(UNIQNAME)@login-course.engin.umich.edu:$(REMOTE_PATH)/"
 	echo "Files synced to CAEN at ~/$(REMOTE_PATH)/"
 .PHONY: sync2caen
 
 define MAKEFILE_HELP
 EECS281 Advanced Makefile Help
 * This Makefile uses advanced techniques, for more information:
-	$$ man make
+    $$ man make
 
 * General usage
-	1. Follow directions at each "TODO" in this file.
-	a. Set EXECUTABLE equal to the name from the project specification.
-	b. Set PROJECTFILE equal to the name of the source file with main()
-	c. Add any dependency rules specific to your files.
-	2. Build, test, submit... repeat as necessary.
+    1. Follow directions at each "TODO" in this file.
+       a. Set EXECUTABLE equal to the name from the project specification.
+       b. Set PROJECTFILE equal to the name of the source file with main()
+       c. Add any dependency rules specific to your files.
+    2. Build, test, submit... repeat as necessary.
 
 * Preparing submissions
-	A) To build 'partialsubmit.tar.gz', a tarball without tests used to
-	find buggy solutions in the autograder.
+    A) To build 'partialsubmit.tar.gz', a tarball without tests used to
+       find buggy solutions in the autograder.
 
-	*** USE THIS ONLY FOR TESTING YOUR SOLUTION! ***
+           *** USE THIS ONLY FOR TESTING YOUR SOLUTION! ***
 
-	This is useful for faster autograder runs during development and
-	free submissions if the project does not build.
-	$$ make partialsubmit
-	B) Build 'fullsubmit.tar.gz' a tarball complete with autograder test
-	files.
+       This is useful for faster autograder runs during development and
+       free submissions if the project does not build.
+           $$ make partialsubmit
+    B) Build 'fullsubmit.tar.gz' a tarball complete with autograder test
+       files.
 
-	*** ALWAYS USE THIS FOR FINAL GRADING! ***
+           *** ALWAYS USE THIS FOR FINAL GRADING! ***
 
-	It is also useful when trying to find buggy solutions in the
-	autograder.
-	$$ make fullsubmit
-	C) Build 'ungraded.tar.gz' a tarball without tests that the autograder
-	will not try to build.
+       It is also useful when trying to find buggy solutions in the
+       autograder.
+           $$ make fullsubmit
+    C) Build 'ungraded.tar.gz' a tarball without tests that the autograder
+       will not try to build.
 
-	*** USE THIS ONLY TO UPLOAD CODE TO THE AUTOGRADER FOR STAFF ***
+           *** USE THIS ONLY TO UPLOAD CODE TO THE AUTOGRADER FOR STAFF ***
 
-	This is only useful for a staff member who wants to view your most
-	recent code on the autograder.
-	$$ make ungraded
+       This is only useful for a staff member who wants to view your most
+       recent code on the autograder.
+           $$ make ungraded
 
 * Unit testing support
-	A) Source files for unit testing should be named test*.cpp.  Examples
-	include test_input.cpp or test3.cpp.
-	B) Automatic build rules are generated to support the following:
-	$$ make test_input
-	$$ make test3
-	$$ make alltests        (this builds all test drivers)
-	C) If test drivers need special dependencies, they must be added
-	manually.
-	D) IMPORTANT: NO SOURCE FILES WITH NAMES THAT BEGIN WITH test WILL BE
-	ADDED TO ANY SUBMISSION TARBALLS.
+    A) Source files for unit testing should be named test*.cpp.  Examples
+       include test_input.cpp or test3.cpp.
+    B) Automatic build rules are generated to support the following:
+           $$ make test_input
+           $$ make test3
+           $$ make alltests        (this builds all test drivers)
+    C) If test drivers need special dependencies, they must be added
+       manually.
+    D) IMPORTANT: NO SOURCE FILES WITH NAMES THAT BEGIN WITH test WILL BE
+       ADDED TO ANY SUBMISSION TARBALLS.
 
 * Static Analysis support
-	A) Matches current autograder style grading tests
-	B) Usage:
-	$$ make static
+    A) Matches current autograder style grading tests
+    B) Usage:
+           $$ make static
 
 * Sync to CAEN support
-	A) Requires an .ssh/config file with a login.engin.umich.edu host
-	defined, SSH Multiplexing enabled, and an open SSH connection.
-	B) Edit the REMOTE_BASEDIR variable if default is not preferred.
-	C) Usage:
-	$$ make sync2caen
+    A) Requires an .ssh/config file with a login.engin.umich.edu host
+       defined, SSH Multiplexing enabled, and an open SSH connection.
+    B) Edit the REMOTE_BASEDIR variable if default is not preferred.
+    C) Usage:
+           $$ make sync2caen
 endef
 export MAKEFILE_HELP
 
@@ -308,21 +306,27 @@ help:
 # TODO (begin) #
 #######################
 # individual dependencies for objects
-# This tells 'make' that if a .h file changes, it needs to recompile
-# the corresponding .o file.
-
-# Define header groups for clarity
-COMMON_HEADERS = Order.h CommandLine.h
-TRADER_HEADERS = Trader.h
-STOCK_HEADERS = Stock.h $(TRADER_HEADERS) $(COMMON_HEADERS)
-MARKET_HEADERS = Market.h $(STOCK_HEADERS)
-
-# Object file dependencies
-main.o: main.cpp $(MARKET_HEADERS)
-Market.o: Market.cpp $(MARKET_HEADERS)
-Stock.o: Stock.cpp $(STOCK_HEADERS)
-Trader.o: Trader.cpp $(TRADER_HEADERS)
-CommandLine.o: CommandLine.cpp CommandLine.h
+# Examples:
+# "Add a header file dependency"
+# project2.o: project2.cpp project2.h
+#
+# "Add multiple headers and a separate class"
+# HEADERS = some.h special.h header.h files.h
+# myclass.o: myclass.cpp myclass.h $(HEADERS)
+# project5.o: project5.cpp myclass.o $(HEADERS)
+#
+# SOME EXAMPLES
+#
+#test_thing: test_thing.cpp class.o functions.o
+#class.o: class.cpp class.h
+#functions.o: functions.cpp functions.h
+#project0.o: project0.cpp class.h functions.h
+#
+# THE COMPILER CAN GENERATE DEPENDENCIES FROM SOURCE CODE
+#
+# % g++ -std=c++17 -MM *.cpp
+#
+# ADD YOUR OWN DEPENDENCIES HERE
 
 ######################
 # TODO (end) #

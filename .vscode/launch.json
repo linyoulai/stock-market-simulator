@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",//调试名字，可以自行修改
+      "type": "cppdbg",//不要更改
+      "request": "launch",//不要更改
+      "args": ["--verbose", "--median", "--trader_info", "--time_traveler", 
+      "<", "${workspaceFolder}/spec-input-PR.txt"],//如果main_exe需要参数，填写在这个地方，没有就填空
+      "stopAtEntry": false,//不要更改
+      "externalConsole": false,//不要更改
+      "cwd": "${workspaceFolder}",//运行目录
+      "program": "${workspaceFolder}/market_debug",//可执行文件名字
+      "MIMode": "gdb",//不要更改
+      "miDebuggerPath": "gdb",//不要更改
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}

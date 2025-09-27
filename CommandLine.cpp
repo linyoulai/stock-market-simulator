@@ -1,5 +1,5 @@
 // CommandLine.cpp
-#include "CommandLine.h"
+#include "./include/CommandLine.h"
 #include <iostream>
 #include <getopt.h>
 

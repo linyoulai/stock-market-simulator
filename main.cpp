@@ -2,8 +2,8 @@
 // 项目的唯一入口点
 
 #include <iostream>
-#include "Market.h"
-#include "CommandLine.h"
+#include "./include/Market.h"
+#include "./include/CommandLine.h"
 
 int main(int argc, char** argv) {
     // 1. 创建一个对象来存储命令行设置
@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     Market market(args);
     // 4. 启动市场模拟
     market.run();
+    std::cout << "Market simulation completed." << std::endl;
 
     return 0;
 }
