@@ -1,0 +1,5 @@
+COMMENT: Negative quantity
+MODE: TL
+NUM_TRADERS: 1
+NUM_STOCKS: 1
+0 SELL T0 S0 $10 #-5

@@ -6,7 +6,7 @@
       "type": "cppdbg",//不要更改
       "request": "launch",//不要更改
       "args": ["--verbose", "--median", "--trader_info", "--time_traveler", 
-      "<", "${workspaceFolder}/spec-input-PR.txt"],//如果main_exe需要参数，填写在这个地方，没有就填空
+      "<", "${workspaceFolder}/test/spec-input-PR.txt"],//如果main_exe需要参数，填写在这个地方，没有就填空
       "stopAtEntry": false,//不要更改
       "externalConsole": false,//不要更改
       "cwd": "${workspaceFolder}",//运行目录

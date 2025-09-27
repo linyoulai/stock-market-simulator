@@ -1,0 +1,3 @@
+Processing orders...
+---End of Day---
+Trades Completed: 0

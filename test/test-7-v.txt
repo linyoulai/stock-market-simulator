@@ -1,0 +1,5 @@
+COMMENT: Valid boundary IDs
+MODE: TL
+NUM_TRADERS: 3
+NUM_STOCKS: 2
+0 SELL T2 S1 $10 #5

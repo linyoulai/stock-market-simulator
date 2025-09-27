@@ -24,7 +24,6 @@ int main(int argc, char** argv) {
     Market market(args);
     // 4. 启动市场模拟
     market.run();
-    std::cout << "Market simulation completed." << std::endl;
 
     return 0;
 }

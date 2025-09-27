@@ -1,0 +1,5 @@
+COMMENT: Negative timestamp
+MODE: TL
+NUM_TRADERS: 1
+NUM_STOCKS: 1
+-1 SELL T0 S0 $10 #10
