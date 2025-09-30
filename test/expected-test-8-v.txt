@@ -1,0 +1,5 @@
+Processing orders...
+Trader 1 purchased 5 shares of Stock 0 from Trader 0 for $10/share
+Trader 1 purchased 5 shares of Stock 0 from Trader 0 for $12/share
+---End of Day---
+Trades Completed: 2

@@ -1,0 +1,7 @@
+COMMENT: One BUY order matches two SELL orders. Successful trades should be 2.
+MODE: TL
+NUM_TRADERS: 2
+NUM_STOCKS: 1
+0 SELL T0 S0 $10 #5
+1 SELL T0 S0 $12 #5
+2 BUY T1 S0 $15 #10

@@ -1,0 +1,6 @@
+Processing orders...
+Median match price of Stock 0 at time 0 is $100
+Median match price of Stock 0 at time 1 is $60
+Median match price of Stock 0 at time 2 is $20
+---End of Day---
+Trades Completed: 3
