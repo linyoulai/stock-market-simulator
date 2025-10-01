@@ -5,22 +5,21 @@
 
 void TimeTraveler::process_order(const Order& new_order) {
     if (new_order.is_buy) {
-        if (lowest_sell_price_so_far != -1 && new_order.price > lowest_sell_price_so_far) {
+        if (lowest_sell_price != -1 && new_order.price > lowest_sell_price) {
             // 利润更高，更新最大利润
-            int profit = new_order.price - lowest_sell_price_so_far;
+            int profit = new_order.price - lowest_sell_price;
             if (profit > max_profit) {
                 max_profit = profit;
-                max_profit_sell_timestamp = lowest_sell_price_timestamp;
-                max_profit_sell_price = lowest_sell_price_so_far;
-                max_profit_buy_timestamp = new_order.timestamp;
-                max_profit_buy_price = new_order.price;
+                best_entry_point_timestamp = lowest_sell_price_timestamp;
+                best_entry_point_price = lowest_sell_price;
+                best_exit_point_timestamp = new_order.timestamp;
+                best_exit_point_price = new_order.price;
             }
         }
-
     } else {
         // 卖单来时，就比较，如果价格更低，就更新最低价格
-        if (lowest_sell_price_so_far == -1 || new_order.price < lowest_sell_price_so_far) {
-            lowest_sell_price_so_far = new_order.price;
+        if (lowest_sell_price == -1 || new_order.price < lowest_sell_price) {
+            lowest_sell_price = new_order.price;
             lowest_sell_price_timestamp = new_order.timestamp;
         }
     }
@@ -33,9 +32,9 @@ A time traveler could not make a profit on Stock 1
 void TimeTraveler::print_report(const int stock_id) const {
     if (max_profit > 0) {
         std::cout << "A time traveler would buy Stock " << stock_id 
-        << " at time " << max_profit_sell_timestamp << " for $" 
-        << max_profit_sell_price << " and sell it at time " 
-        << max_profit_buy_timestamp << " for $" << max_profit_buy_price << std::endl;
+        << " at time " << best_entry_point_timestamp << " for $" 
+        << best_entry_point_price << " and sell it at time " 
+        << best_exit_point_timestamp << " for $" << best_exit_point_price << std::endl;
     } else {
         std::cout << "A time traveler could not make a profit on Stock " << stock_id << std::endl;
     }
