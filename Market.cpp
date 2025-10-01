@@ -37,18 +37,6 @@ void Market::process_file_header() {
     std::cin >> junk >> num_traders;
     std::cin >> junk >> num_stocks;
 
-    // 输出看看是否接收成功：
-    //DEBUGOUT("DEBUGOUT--------------file header---------------" << std::endl);
-    //DEBUGOUT("mode: " << mode << std::endl);
-    //DEBUGOUT("num_traders: " << num_traders << std::endl);
-    //DEBUGOUT("num_stocks: " << num_stocks << std::endl);
-
-    /*
-    std::cout << "mode: " << mode << std::endl;
-    std::cout << "num_traders: " << num_traders << std::endl;
-    std::cout << "num_stocks: " << num_stocks << std::endl;
-    */
-
     // init traders and stocks
     this->mode = mode;
     traders.resize(num_traders);
