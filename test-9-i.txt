@@ -1,4 +1,5 @@
 COMMENT: Ultimate trader_info test with 30 orders. 
+MODE: TL
 NUM_TRADERS: 5
 NUM_STOCKS: 3
 0 SELL T0 S0 $10 #20
