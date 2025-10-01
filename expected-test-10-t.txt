@@ -3,3 +3,4 @@ Processing orders...
 Trades Completed: 3
 ---Time Travelers---
 A time traveler would buy Stock 0 at time 0 for $20 and sell it at time 0 for $100
+A time traveler could not make a profit on Stock 1

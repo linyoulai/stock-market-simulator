@@ -53,6 +53,9 @@ void Market::process_file_header() {
     this->mode = mode;
     traders.resize(num_traders);
     stocks.resize(num_stocks);
+    for (int i = 0; i < num_stocks; i++) {
+        stocks[i].stock_id = i;
+    }
     
     // Create a stringstream object in case the PROG is used
     std::stringstream ss;
@@ -238,6 +241,7 @@ void Market::print_time_traveler_output() {
     DEBUGOUT("DEBUGOUT--------------time traveler report---------------" << std::endl);
     std::cout << "---Time Travelers---" << std::endl;
     for (const auto &stock : stocks) {
+        //std::cout << "Stock " << stock.stock_id << " " << std::endl;
         stock.print_time_traveler_report();
     }
 }
