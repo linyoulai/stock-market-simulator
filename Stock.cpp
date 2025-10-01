@@ -74,14 +74,14 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                 }
                 // 1
                 // 输出队首元素
-                if (!lower_prices_queue.empty())
-                {
-                    DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
-                }
-                if (!higher_prices_queue.empty())
-                {
-                    DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
-                }
+                // if (!lower_prices_queue.empty())
+                // {
+                //     DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
+                // }
+                // if (!higher_prices_queue.empty())
+                // {
+                //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
+                // }
                 // 保持低价队列元素个数大于等于高价队列，最多大1
                 if (lower_prices_queue.size() > higher_prices_queue.size() + 1)
                 {
@@ -94,14 +94,14 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                     higher_prices_queue.pop();
                 }
                 // 输出队首元素
-                if (!lower_prices_queue.empty())
-                {
-                    DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
-                }
-                if (!higher_prices_queue.empty())
-                {
-                    DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
-                }
+                // if (!lower_prices_queue.empty())
+                // {
+                //     DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
+                // }
+                // if (!higher_prices_queue.empty())
+                // {
+                //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
+                // }
             }
             // 复制lower_prices_queue和higher_prices_queue，输出内容
             // std::priority_queue<int, std::vector<int>, std::less<int>> lower_prices_queue_copy = lower_prices_queue;
@@ -180,15 +180,15 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                         higher_prices_queue.push(trade_price);
                     }
                 }
-                // 输出队首元素
-                if (!lower_prices_queue.empty())
-                {
-                    DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
-                }
-                if (!higher_prices_queue.empty())
-                {
-                    DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
-                }
+                // // 输出队首元素
+                // if (!lower_prices_queue.empty())
+                // {
+                //     DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
+                // }
+                // if (!higher_prices_queue.empty())
+                // {
+                //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
+                // }
 
                 // 保持低价队列元素个数大于等于高价队列，最多大1
                 if (lower_prices_queue.size() > higher_prices_queue.size() + 1)
@@ -203,14 +203,14 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                 }
                 // 输出队首元素
                 // 输出队首元素
-                if (!lower_prices_queue.empty())
-                {
-                    DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
-                }
-                if (!higher_prices_queue.empty())
-                {
-                    DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
-                }
+                // if (!lower_prices_queue.empty())
+                // {
+                //     DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
+                // }
+                // if (!higher_prices_queue.empty())
+                // {
+                //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
+                // }
             }
 
             new_order.quantity -= trade_quantity;
@@ -239,19 +239,19 @@ void Stock::print_median_report(int timestamp) const
     {
         return;
     }
-    DEBUGOUT("DEBUGOUT--------------median report---------------" << std::endl);
-    // 输出当前股票的队列大小
-    DEBUGOUT("lower_prices_queue.size() = " << lower_prices_queue.size() << std::endl);
-    DEBUGOUT("higher_prices_queue.size() = " << higher_prices_queue.size() << std::endl);
+    // DEBUGOUT("DEBUGOUT--------------median report---------------" << std::endl);
+    // // 输出当前股票的队列大小
+    // DEBUGOUT("lower_prices_queue.size() = " << lower_prices_queue.size() << std::endl);
+    // DEBUGOUT("higher_prices_queue.size() = " << higher_prices_queue.size() << std::endl);
     // 输出队首元素
-    if (!lower_prices_queue.empty())
-    {
-        DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
-    }
-    if (!higher_prices_queue.empty())
-    {
-        DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
-    }
+    // if (!lower_prices_queue.empty())
+    // {
+    //     DEBUGOUT("lower_prices_queue.front() = " << lower_prices_queue.top() << std::endl);
+    // }
+    // if (!higher_prices_queue.empty())
+    // {
+    //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
+    // }
     // 打印当前股票的中位数报告
     int median_price = 0;
     if (lower_prices_queue.size() == higher_prices_queue.size())
