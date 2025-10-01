@@ -71,7 +71,6 @@ OBJECTS     = $(SOURCES:%.cpp=%.o)
 # Default Flags
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic
 
-
 # make debug - will compile sources with $(CXXFLAGS) -g3 and -fsanitize
 #              flags also defines DEBUG and _GLIBCXX_DEBUG
 debug: CXXFLAGS += -g3 -DDEBUG -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
@@ -213,7 +212,7 @@ ungraded: identifier $(UNGRADED_SUBMITFILE)
 
 # REMOTE_PATH has default definition above
 sync2caen:
-ifeq ($(UNIQNAME), ayxzhu)
+ifeq ($(UNIQNAME), youruniqname)
 	@echo Edit UNIQNAME variable in Makefile.
 	@exit 1;
 endif
