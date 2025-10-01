@@ -3,11 +3,11 @@
 // 项目的唯一入口点
 
 #include <iostream>
-#include "./include/Market.h"
-#include "./include/CommandLine.h"
+#include "Market.h"
+#include "CommandLine.h"
 
-// ./market -vmit < /home/lyl/projects/market_sim_yl/test/spec-input-PR.txt
-// ./market_debug -vmit < /home/lyl/projects/market_sim_yl/test/spec-input-PR.txt
+// ./market -vmit < /home/lyl/projects/market_sim_yl/spec-input-PR.txt
+// ./market_debug -vmit < /home/lyl/projects/market_sim_yl/spec-input-PR.txt
 
 int main(int argc, char** argv) {
     // 1. 创建一个对象来存储命令行设置

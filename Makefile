@@ -24,7 +24,7 @@ SHELL = /bin/bash
 # TODO (begin) #
 #######################
 # Change 'youruniqname' to match your UM uniqname (no quote marks).
-UNIQNAME    = youruniqname
+UNIQNAME    = ayxzhu
 
 # Change the right hand side of the identifier to match the project identifier
 # given in the project or lab specification.
@@ -70,6 +70,7 @@ OBJECTS     = $(SOURCES:%.cpp=%.o)
 
 # Default Flags
 CXXFLAGS = -std=c++17 -Wconversion -Wall -Werror -Wextra -pedantic
+
 
 # make debug - will compile sources with $(CXXFLAGS) -g3 and -fsanitize
 #              flags also defines DEBUG and _GLIBCXX_DEBUG
@@ -212,7 +213,7 @@ ungraded: identifier $(UNGRADED_SUBMITFILE)
 
 # REMOTE_PATH has default definition above
 sync2caen:
-ifeq ($(UNIQNAME), youruniqname)
+ifeq ($(UNIQNAME), ayxzhu)
 	@echo Edit UNIQNAME variable in Makefile.
 	@exit 1;
 endif

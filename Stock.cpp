@@ -1,8 +1,8 @@
 // Project Identifier: 0E04A31E0D60C01986ACB20081C9D8722A2519B6
-#include "./include/Stock.h"
-#include "./include/CommandLine.h"
-#include "./include/debug.h"
-#include "./include/Trader.h"
+#include "Stock.h"
+#include "CommandLine.h"
+#include "debug.h"
+#include "Trader.h"
 #include <iostream>
 
 void Stock::process_order(const Order &new_order_const, std::vector<Trader> &traders, const CommandLineArgs &args, long long &trades_completed)

@@ -2,9 +2,9 @@
 #ifndef MARKET_H
 #define MARKET_H
 
-#include "./CommandLine.h"
-#include "./Stock.h"
-#include "./Trader.h"
+#include "CommandLine.h"
+#include "Stock.h"
+#include "Trader.h"
 #include <vector>
 #include <string>
 

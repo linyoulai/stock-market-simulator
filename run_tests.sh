@@ -4,7 +4,7 @@
 # 可执行文件名
 EXECUTABLE="./market"
 # 测试文件所在目录
-TEST_DIR="./test"
+TEST_DIR="./"
 # 编译命令
 MAKE_COMMAND="make -R -r" # 这是什么意思
 
