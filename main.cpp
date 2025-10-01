@@ -10,6 +10,9 @@
 // ./market_debug -vmit < /home/lyl/projects/market_sim_yl/spec-input-PR.txt
 
 int main(int argc, char** argv) {
+    // 设置I/O加速
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
     // 1. 创建一个对象来存储命令行设置
     CommandLineArgs args;
     // 2. 解析命令行参数，填充args对象
