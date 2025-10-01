@@ -7,7 +7,7 @@
 // 每种股票都有一个timetraveler来记录这种股票的最大收益
 class TimeTraveler {
 public:
-    void process_order(const Order& new_order);
+    void process_order(const Order* new_order);
     void print_report(const int stock_id) const;
 
 private:

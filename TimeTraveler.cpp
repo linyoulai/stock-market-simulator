@@ -2,25 +2,25 @@
 #include "TimeTraveler.h"
 #include <iostream>
 
-
-void TimeTraveler::process_order(const Order& new_order) {
-    if (new_order.is_buy) {
-        if (lowest_sell_price != -1 && new_order.price > lowest_sell_price) {
+// 保证不修改订单
+void TimeTraveler::process_order(const Order* new_order) {
+    if (new_order->is_buy) {
+        if (lowest_sell_price != -1 && new_order->price > lowest_sell_price) {
             // 利润更高，更新最大利润
-            int profit = new_order.price - lowest_sell_price;
+            int profit = new_order->price - lowest_sell_price;
             if (profit > max_profit) {
                 max_profit = profit;
                 optimal_entry_point_timestamp = lowest_sell_price_timestamp;
                 optimal_entry_point_price = lowest_sell_price;
-                optimal_exit_point_timestamp = new_order.timestamp;
-                optimal_exit_point_price = new_order.price;
+                optimal_exit_point_timestamp = new_order->timestamp;
+                optimal_exit_point_price = new_order->price;
             }
         }
     } else {
         // 卖单来时，就比较，如果价格更低，就更新最低价格
-        if (lowest_sell_price == -1 || new_order.price < lowest_sell_price) {
-            lowest_sell_price = new_order.price;
-            lowest_sell_price_timestamp = new_order.timestamp;
+        if (lowest_sell_price == -1 || new_order->price < lowest_sell_price) {
+            lowest_sell_price = new_order->price;
+            lowest_sell_price_timestamp = new_order->timestamp;
         }
     }
 }

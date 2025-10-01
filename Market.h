@@ -7,6 +7,7 @@
 #include "Trader.h"
 #include <vector>
 #include <string>
+#include <list>
 
 class Market {
 public:
@@ -30,6 +31,7 @@ private:
     std::string mode;
     std::vector<Trader> traders;
     std::vector<Stock> stocks;
+    std::list<Order*> order_list; // 所有订单的列表，用于闭市时释放内存
     int current_timestamp = 0; // int 32bit
 
     long long trades_completed = 0; // 64bit

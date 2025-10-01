@@ -162,24 +162,10 @@ void Market::process_orders(std::istream &inputStream) {
             this->current_timestamp = timestamp;
         }
         // --- 3. 创建并分派订单 ---
-        Order new_order;
-        new_order.timestamp = timestamp;
-        new_order.is_buy = (buy_or_sell == "BUY");
-        new_order.trader_id = trader_id;
-        new_order.stock_id = stock_id;
-        new_order.price = price;
-        new_order.quantity = quantity;
-        new_order.order_id = this->order_counter++;
-        // 输出订单看看
-        //DEBUGOUT("DEBUGOUT--------------one order info--------" << std::endl);
-        //DEBUGOUT("order_id: " << new_order.order_id << std::endl);
-        //DEBUGOUT("timestamp: " << new_order.timestamp << std::endl);
-        //DEBUGOUT("buy_or_sell: " << (new_order.is_buy ? "BUY" : "SELL") << std::endl);
-        //DEBUGOUT("trader_id: " << new_order.trader_id << std::endl);
-        //DEBUGOUT("stock_id: " << new_order.stock_id << std::endl);
-        //DEBUGOUT("price: " << new_order.price << std::endl);
-        //DEBUGOUT("quantity: " << new_order.quantity << std::endl);
-    
+        Order* new_order = new Order(timestamp, (buy_or_sell == "BUY"), trader_id, stock_id, price, quantity, this->order_counter++);
+        // 用一个链表去存储new_order指针，最后释放
+        this->order_list.push_back(new_order);
+
         stocks[stock_id].stock_id = stock_id;
         stocks[stock_id].process_order(new_order, traders, args, this->trades_completed);
     }
@@ -190,6 +176,11 @@ void Market::process_orders(std::istream &inputStream) {
             stocks[i].print_median_report(this->current_timestamp);
         }
     }
+    // 遍历order_list，释放所有Order对象的内存
+    for (Order* order : this->order_list) {
+        delete order;
+    }
+    this->order_list.clear(); // 清空链表   
 }   
 
 void Market::print_final_reports() {
