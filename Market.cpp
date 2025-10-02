@@ -9,7 +9,7 @@
 #include <sstream>
 
 
-Market::Market(const CommandLineArgs& args) : args(args) {
+Market::Market(CommandLineArgs& args) : args(args) {
 
 }
 
@@ -52,9 +52,11 @@ void Market::process_file_header() {
     // init traders and stocks
     this->mode = mode;
     traders.resize(num_traders);
-    stocks.resize(num_stocks);
+    // stocks.resize(num_stocks);
+    stocks.reserve(num_stocks);
     for (int i = 0; i < num_stocks; i++) {
-        stocks[i].stock_id = i;
+        // stocks[i].stock_id = i;
+        stocks.emplace_back(i, args); // 使用新的构造函数
     }
     
     // Create a stringstream object in case the PROG is used
@@ -162,14 +164,14 @@ void Market::process_orders(std::istream &inputStream) {
             this->current_timestamp = timestamp;
         }
         // --- 3. 创建并分派订单 ---
-        Order new_order;
-        new_order.timestamp = timestamp;
-        new_order.is_buy = (buy_or_sell == "BUY");
-        new_order.trader_id = trader_id;
-        new_order.stock_id = stock_id;
-        new_order.price = price;
-        new_order.quantity = quantity;
-        new_order.order_id = this->order_counter++;
+        Order new_order(timestamp, (buy_or_sell == "BUY"), trader_id, stock_id, price, quantity, this->order_counter++);
+        // new_order.timestamp = timestamp;
+        // new_order.is_buy = (buy_or_sell == "BUY");
+        // new_order.trader_id = trader_id;
+        // new_order.stock_id = stock_id;
+        // new_order.price = price;
+        // new_order.quantity = quantity;
+        // new_order.order_id = this->order_counter++;
         // 输出订单看看
         //DEBUGOUT("DEBUGOUT--------------one order info--------" << std::endl);
         //DEBUGOUT("order_id: " << new_order.order_id << std::endl);

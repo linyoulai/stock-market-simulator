@@ -12,7 +12,10 @@ struct Order {
     int stock_id;
     int price;
     int quantity;
-    long long order_id; // 唯一的ID，用于时间平局
+    int order_id; // 唯一的ID，用于时间平局
+
+    Order(int timestamp, bool is_buy, int trader_id, int stock_id, int price, int quantity, int order_id) :
+        timestamp(timestamp), is_buy(is_buy), trader_id(trader_id), stock_id(stock_id), price(price), quantity(quantity), order_id(order_id) {}
 };
 
 // 买家优先队列的比较器 (价格高的优先)

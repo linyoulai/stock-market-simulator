@@ -5,12 +5,30 @@
 #include "Trader.h"
 #include <iostream>
 
-void Stock::process_order(const Order &new_order_const, std::vector<Trader> &traders, const CommandLineArgs &args, long long &trades_completed)
+Stock::Stock(int stock_id, CommandLineArgs& args) : stock_id(stock_id), args(args), 
+    lower_prices_queue(nullptr), higher_prices_queue(nullptr), time_traveler(nullptr)
+{
+    if (args.median) {
+        lower_prices_queue = new std::priority_queue<int, std::vector<int>, std::less<int>>();
+        higher_prices_queue = new std::priority_queue<int, std::vector<int>, std::greater<int>>();
+    }
+    if (args.time_traveler) {
+        time_traveler = new TimeTraveler();
+    }
+}
+
+Stock::~Stock() {
+    delete lower_prices_queue; // delete nullptr is safe
+    delete higher_prices_queue;
+    delete time_traveler;
+}
+
+void Stock::process_order(const Order &new_order_const, std::vector<Trader> &traders, const CommandLineArgs &args, int &trades_completed)
 {
     // 时间旅行者处理订单
     if (args.time_traveler)
     {
-        time_traveler.process_order(new_order_const);
+        time_traveler->process_order(new_order_const);
     }
 
     Order new_order = new_order_const;
@@ -23,7 +41,7 @@ void Stock::process_order(const Order &new_order_const, std::vector<Trader> &tra
     }
 }
 
-bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const CommandLineArgs &args, long long &trades_completed)
+bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const CommandLineArgs &args, int &trades_completed)
 {
     bool trade_occurred = false;
     // 检查订单是否匹配
@@ -57,19 +75,19 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
 
             if (args.median)
             {
-                if (lower_prices_queue.empty())
+                if (lower_prices_queue->empty())
                 { // 1
-                    lower_prices_queue.push(trade_price);
+                    lower_prices_queue->push(trade_price);
                 }
                 else
                 {
-                    if (trade_price < lower_prices_queue.top())
+                    if (trade_price < lower_prices_queue->top())
                     {
-                        lower_prices_queue.push(trade_price);
+                        lower_prices_queue->push(trade_price);
                     }
                     else
                     {
-                        higher_prices_queue.push(trade_price);
+                        higher_prices_queue->push(trade_price);
                     }
                 }
                 // 1
@@ -83,15 +101,15 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                 //     DEBUGOUT("higher_prices_queue.front() = " << higher_prices_queue.top() << std::endl);
                 // }
                 // 保持低价队列元素个数大于等于高价队列，最多大1
-                if (lower_prices_queue.size() > higher_prices_queue.size() + 1)
+                if (lower_prices_queue->size() > higher_prices_queue->size() + 1)
                 {
-                    higher_prices_queue.push(lower_prices_queue.top());
-                    lower_prices_queue.pop();
+                    higher_prices_queue->push(lower_prices_queue->top());
+                    lower_prices_queue->pop();
                 }
-                else if (higher_prices_queue.size() > lower_prices_queue.size())
+                else if (higher_prices_queue->size() > lower_prices_queue->size())
                 {
-                    lower_prices_queue.push(higher_prices_queue.top());
-                    higher_prices_queue.pop();
+                    lower_prices_queue->push(higher_prices_queue->top());
+                    higher_prices_queue->pop();
                 }
                 // 输出队首元素
                 // if (!lower_prices_queue.empty())
@@ -165,19 +183,19 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
 
             if (args.median)
             {
-                if (lower_prices_queue.empty())
+                if (lower_prices_queue->empty())
                 {
-                    lower_prices_queue.push(trade_price);
+                    lower_prices_queue->push(trade_price);
                 }
                 else
                 {
-                    if (trade_price < lower_prices_queue.top())
+                    if (trade_price < lower_prices_queue->top())
                     {
-                        lower_prices_queue.push(trade_price);
+                        lower_prices_queue->push(trade_price);
                     }
                     else
                     {
-                        higher_prices_queue.push(trade_price);
+                        higher_prices_queue->push(trade_price);
                     }
                 }
                 // // 输出队首元素
@@ -191,15 +209,15 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
                 // }
 
                 // 保持低价队列元素个数大于等于高价队列，最多大1
-                if (lower_prices_queue.size() > higher_prices_queue.size() + 1)
+                if (lower_prices_queue->size() > higher_prices_queue->size() + 1)
                 {
-                    higher_prices_queue.push(lower_prices_queue.top());
-                    lower_prices_queue.pop();
+                    higher_prices_queue->push(lower_prices_queue->top());
+                    lower_prices_queue->pop();
                 }
-                else if (higher_prices_queue.size() > lower_prices_queue.size())
+                else if (higher_prices_queue->size() > lower_prices_queue->size())
                 {
-                    lower_prices_queue.push(higher_prices_queue.top());
-                    higher_prices_queue.pop();
+                    lower_prices_queue->push(higher_prices_queue->top());
+                    higher_prices_queue->pop();
                 }
                 // 输出队首元素
                 // 输出队首元素
@@ -235,7 +253,11 @@ bool Stock::check_match(Order &new_order, std::vector<Trader> &traders, const Co
 // Median match price of Stock 0 at time 2 is $45
 void Stock::print_median_report(int timestamp) const
 {
-    if (lower_prices_queue.empty())
+    if (!args.median)
+    {
+        return;
+    }
+    if (lower_prices_queue->empty())
     {
         return;
     }
@@ -254,13 +276,13 @@ void Stock::print_median_report(int timestamp) const
     // }
     // 打印当前股票的中位数报告
     int median_price = 0;
-    if (lower_prices_queue.size() == higher_prices_queue.size())
+    if (lower_prices_queue->size() == higher_prices_queue->size())
     {
-        median_price = (lower_prices_queue.top() + higher_prices_queue.top()) / 2;
+        median_price = (lower_prices_queue->top() + higher_prices_queue->top()) / 2;
     }
     else
     {
-        median_price = lower_prices_queue.top();
+        median_price = lower_prices_queue->top();
     }
     std::cout << "Median match price of Stock " << this->stock_id
               << " at time " << timestamp << " is $" << median_price << std::endl;
@@ -268,6 +290,10 @@ void Stock::print_median_report(int timestamp) const
 
 void Stock::print_time_traveler_report() const
 {
+    if (!args.time_traveler)
+    {
+        return;
+    }
     // 打印当前股票的时间旅行者报告
-    time_traveler.print_report(stock_id);
+    time_traveler->print_report(stock_id);
 }

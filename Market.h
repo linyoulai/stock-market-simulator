@@ -10,7 +10,7 @@
 
 class Market {
 public:
-    Market(const CommandLineArgs& args);
+    Market(CommandLineArgs& args);
     void run();
 
 private:
@@ -26,14 +26,14 @@ private:
     void print_time_traveler_output();// 打印时间旅行报告
 
     
-    CommandLineArgs args; // 命令行参数
+    CommandLineArgs& args; // 命令行参数
     std::string mode;
     std::vector<Trader> traders;
     std::vector<Stock> stocks;
     int current_timestamp = 0; // int 32bit
 
-    long long trades_completed = 0; // 64bit
-    long long order_counter = 0; // 用于生成唯一的订单ID
+    int trades_completed = 0; // 64bit
+    int order_counter = 0; // 用于生成唯一的订单ID
 };
 
 #endif // MARKET_H
