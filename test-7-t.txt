@@ -1,4 +1,5 @@
 COMMENT: Tests time-traveler 
+MODE: TL
 NUM_TRADERS: 4
 NUM_STOCKS: 3
 0 SELL T0 S1 $50 #10
