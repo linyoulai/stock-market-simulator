@@ -1,0 +1,8 @@
+COMMENT: Time-traveler tie-breaking rule.
+MODE: TL
+NUM_TRADERS: 2
+NUM_STOCKS: 1
+1 SELL T0 S0 $10 #1
+2 SELL T0 S0 $20 #1
+3 BUY T1 S0 $70 #1
+4 BUY T1 S0 $60 #1
