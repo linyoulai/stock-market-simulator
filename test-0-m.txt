@@ -1,4 +1,4 @@
-COMMENT: Super-shotgun test with 30 orders. Hits complex matching (one-to-many, partials), multiple tie-breaks, tricky median cases (no-trade timestamps, even/odd trades), self-trading, and multi-stage time-traveler scenarios across 4 stocks.
+COMMENT: Super-shotgun test 
 MODE: TL
 NUM_TRADERS: 5
 NUM_STOCKS: 4

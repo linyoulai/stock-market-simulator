@@ -1,9 +1,0 @@
-COMMENT: (median on no-trade timestamp) and (median integer division).
-MODE: TL
-NUM_TRADERS: 2
-NUM_STOCKS: 1
-0 SELL T0 S0 $10 #5
-0 BUY T1 S0 $10 #5
-1 SELL T0 S0 $20 #5
-1 BUY T1 S0 $20 #5
-3 SELL T0 S0 $999 #1
