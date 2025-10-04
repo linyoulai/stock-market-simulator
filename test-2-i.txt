@@ -1,0 +1,6 @@
+COMMENT: A trader should be able to buy from themselves.
+MODE: TL
+NUM_TRADERS: 1
+NUM_STOCKS: 1
+0 SELL T0 S0 $100 #10
+1 BUY T0 S0 $100 #10
