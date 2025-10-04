@@ -11,6 +11,7 @@
 class Market {
 public:
     Market(CommandLineArgs& args);
+    ~Market();
     void run();
 
 private:
@@ -29,7 +30,7 @@ private:
     CommandLineArgs& args; // 命令行参数
     std::string mode;
     std::vector<Trader> traders;
-    std::vector<Stock> stocks;
+    std::vector<Stock*> stocks;
     int current_timestamp = 0; // int 32bit
 
     int trades_completed = 0; // 64bit

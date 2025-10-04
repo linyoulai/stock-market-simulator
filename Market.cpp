@@ -13,6 +13,14 @@ Market::Market(CommandLineArgs& args) : args(args) {
 
 }
 
+Market::~Market() {
+    for (Stock* stock_ptr : stocks) {
+        if (stock_ptr != nullptr) {
+            delete stock_ptr;
+        }
+    }
+}
+
 void Market::run() {
     std::cout << "Processing orders..." << std::endl;
     // 启动市场模拟
@@ -53,11 +61,7 @@ void Market::process_file_header() {
     this->mode = mode;
     traders.resize(num_traders);
     // stocks.resize(num_stocks);
-    stocks.reserve(num_stocks);
-    for (int i = 0; i < num_stocks; i++) {
-        // stocks[i].stock_id = i;
-        stocks.emplace_back(i, args); // 使用新的构造函数
-    }
+    stocks.resize(num_stocks, nullptr);
     
     // Create a stringstream object in case the PROG is used
     std::stringstream ss;
@@ -157,7 +161,9 @@ void Market::process_orders(std::istream &inputStream) {
             // 打印当前时间点的中位数报告
             if (args.median) {
                 for (size_t i = 0; i < stocks.size(); i++) {
-                    stocks[i].print_median_report(this->current_timestamp);
+                    if (stocks[i] != nullptr) {
+                        stocks[i]->print_median_report(this->current_timestamp);
+                    }
                 }
             }
             // 更新当前时间点
@@ -165,31 +171,18 @@ void Market::process_orders(std::istream &inputStream) {
         }
         // --- 3. 创建并分派订单 ---
         Order new_order(timestamp, (buy_or_sell == "BUY"), trader_id, stock_id, price, quantity, this->order_counter++);
-        // new_order.timestamp = timestamp;
-        // new_order.is_buy = (buy_or_sell == "BUY");
-        // new_order.trader_id = trader_id;
-        // new_order.stock_id = stock_id;
-        // new_order.price = price;
-        // new_order.quantity = quantity;
-        // new_order.order_id = this->order_counter++;
-        // 输出订单看看
-        //DEBUGOUT("DEBUGOUT--------------one order info--------" << std::endl);
-        //DEBUGOUT("order_id: " << new_order.order_id << std::endl);
-        //DEBUGOUT("timestamp: " << new_order.timestamp << std::endl);
-        //DEBUGOUT("buy_or_sell: " << (new_order.is_buy ? "BUY" : "SELL") << std::endl);
-        //DEBUGOUT("trader_id: " << new_order.trader_id << std::endl);
-        //DEBUGOUT("stock_id: " << new_order.stock_id << std::endl);
-        //DEBUGOUT("price: " << new_order.price << std::endl);
-        //DEBUGOUT("quantity: " << new_order.quantity << std::endl);
-    
-        stocks[stock_id].stock_id = stock_id;
-        stocks[stock_id].process_order(new_order, traders, args, this->trades_completed);
+        
+        if (stocks[stock_id] == nullptr) {
+            stocks[stock_id] = new Stock(stock_id, args);
+        }
+        stocks[stock_id]->stock_id = stock_id;
+        stocks[stock_id]->process_order(new_order, traders, args, this->trades_completed);
     }
     // --- 循环结束后 ---
     // 为最后一个交易时间点打印一次中位数报告
     if (args.median) {
         for (size_t i = 0; i < stocks.size(); i++) {
-            stocks[i].print_median_report(this->current_timestamp);
+            stocks[i]->print_median_report(this->current_timestamp);
         }
     }
 }   
@@ -244,6 +237,6 @@ void Market::print_time_traveler_output() {
     std::cout << "---Time Travelers---" << std::endl;
     for (const auto &stock : stocks) {
         //std::cout << "Stock " << stock.stock_id << " " << std::endl;
-        stock.print_time_traveler_report();
+        stock->print_time_traveler_report();
     }
 }
