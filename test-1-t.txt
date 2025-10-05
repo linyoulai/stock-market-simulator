@@ -1,7 +1,7 @@
-COMMENT: 测试time_traveler在平局情况的行为
+COMMENT: time_traveler在平局情况，应该买最早的。
 MODE: TL
-NUM_TRADERS: 2
-NUM_STOCKS: 2
+NUM_TRADERS: 100
+NUM_STOCKS: 100
 0 SELL T0 S0 $20 #10
 0 BUY T1 S0 $100 #5
 1 SELL T0 S0 $10 #10
