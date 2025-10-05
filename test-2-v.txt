@@ -1,4 +1,4 @@
-COMMENT: 买卖价格平局时应该买更早的。verbose
+COMMENT: bug2:卖单价格平局时应该卖更早的。verbose 2 12 13 15 
 MODE: TL
 NUM_TRADERS: 100
 NUM_STOCKS: 100

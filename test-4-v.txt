@@ -1,9 +1,0 @@
-COMMENT: 买卖价格平局时应该买更早的。verbose
-MODE: TL
-NUM_TRADERS: 100
-NUM_STOCKS: 100
-1 BUY T8 S4 $10 #5
-2 BUY T9 S4 $10 #5
-3 SELL T10 S4 $8 #5
-
-

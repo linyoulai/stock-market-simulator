@@ -1,4 +1,4 @@
-COMMENT: time_traveler在平局情况，应该买最早的。
+COMMENT: bug6:不能时间倒流。bug7:time_traveler在平局情况，应该买最早的。6 7 13 16
 MODE: TL
 NUM_TRADERS: 100
 NUM_STOCKS: 100

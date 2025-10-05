@@ -1,5 +1,0 @@
-COMMENT: 自己和自己交易，应该买最早的verbose
-MODE: TL
-NUM_TRADERS: 4
-NUM_STOCKS: 3
-0 SELL T0 S1 $5 #10
