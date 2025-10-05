@@ -15,6 +15,13 @@ public:
     Stock(int stock_id, CommandLineArgs& args);
     ~Stock();
 
+    // 禁止拷贝构造和拷贝赋值    
+    Stock(const Stock&) = delete;
+    Stock& operator=(const Stock&) = delete;
+    // 明确启用移动 (添加这两行)
+    Stock(Stock&&) = default;
+    Stock& operator=(Stock&&) = default;
+
     void process_order(const Order& new_order, std::vector<Trader>& traders, const CommandLineArgs& args, int& trades_completed);
     void print_median_report(int timestamp) const;
     void print_time_traveler_report() const;

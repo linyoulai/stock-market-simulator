@@ -10,7 +10,7 @@
 
 class Market {
 public:
-    Market(CommandLineArgs& args);
+    explicit Market(CommandLineArgs& args);
     void run();
 
 private:

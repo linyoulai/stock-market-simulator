@@ -115,14 +115,6 @@ void Market::process_orders(std::istream &inputStream) {
     while (inputStream >> timestamp >> buy_or_sell 
         >> prefix_T >> trader_id >> prefix_S >> stock_id 
         >> prefix_dollar >> price >> prefix_sharp >> quantity) {
-        // 输出看看是否接收成功：
-        //DEBUGOUT("DEBUGOUT--------------check input---------------" << std::endl);
-        //DEBUGOUT("timestamp: " << timestamp << std::endl);
-        //DEBUGOUT("buy_or_sell: " << buy_or_sell << std::endl);
-        //DEBUGOUT("trader_id: " << trader_id << std::endl);
-        //DEBUGOUT("stock_id: " << stock_id << std::endl);
-        //DEBUGOUT("price: " << price << std::endl);
-        //DEBUGOUT("quantity: " << quantity << std::endl);
 
         // --- 1. 输入验证 (直接根据项目规格) ---
         // 只有 TL 模式需要检查，PR 模式保证是合法的
@@ -164,23 +156,7 @@ void Market::process_orders(std::istream &inputStream) {
             this->current_timestamp = timestamp;
         }
         // --- 3. 创建并分派订单 ---
-        Order new_order(timestamp, (buy_or_sell == "BUY"), trader_id, stock_id, price, quantity, this->order_counter++);
-        // new_order.timestamp = timestamp;
-        // new_order.is_buy = (buy_or_sell == "BUY");
-        // new_order.trader_id = trader_id;
-        // new_order.stock_id = stock_id;
-        // new_order.price = price;
-        // new_order.quantity = quantity;
-        // new_order.order_id = this->order_counter++;
-        // 输出订单看看
-        //DEBUGOUT("DEBUGOUT--------------one order info--------" << std::endl);
-        //DEBUGOUT("order_id: " << new_order.order_id << std::endl);
-        //DEBUGOUT("timestamp: " << new_order.timestamp << std::endl);
-        //DEBUGOUT("buy_or_sell: " << (new_order.is_buy ? "BUY" : "SELL") << std::endl);
-        //DEBUGOUT("trader_id: " << new_order.trader_id << std::endl);
-        //DEBUGOUT("stock_id: " << new_order.stock_id << std::endl);
-        //DEBUGOUT("price: " << new_order.price << std::endl);
-        //DEBUGOUT("quantity: " << new_order.quantity << std::endl);
+        Order new_order(timestamp, (buy_or_sell == "BUY"), trader_id, price, quantity, this->order_counter++);
     
         stocks[stock_id].stock_id = stock_id;
         stocks[stock_id].process_order(new_order, traders, args, this->trades_completed);
