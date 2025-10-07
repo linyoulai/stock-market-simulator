@@ -1,0 +1,5 @@
+COMMENT: Testing out of bounds trader ID
+MODE: TL
+NUM_TRADERS: 2
+NUM_STOCKS: 1
+0 BUY T2 S0 $10 #10  
