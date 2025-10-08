@@ -1,0 +1,8 @@
+COMMENT: Testing behavior when zero trades occur.
+MODE: TL
+NUM_TRADERS: 4
+NUM_STOCKS: 2
+0 BUY T0 S0 $10 #10
+1 SELL T1 S0 $20 #10
+2 BUY T2 S1 $30 #10
+3 SELL T3 S1 $40 #10

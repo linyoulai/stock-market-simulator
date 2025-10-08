@@ -1,0 +1,6 @@
+COMMENT: Bug 15: Testing integer overflow for net transfer in trader info.
+MODE: TL
+NUM_TRADERS: 2
+NUM_STOCKS: 1
+0 SELL T0 S0 $50000 #50000
+1 BUY T1 S0 $60000 #50000
