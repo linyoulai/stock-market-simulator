@@ -1,7 +1,7 @@
 COMMENT: The Ultimate Tie-Breaking Test. Inspired by Hint 2. This file tests all common functor bugs in one go.
 MODE: TL
-NUM_TRADERS: 100
-NUM_STOCKS: 100
+NUM_TRADERS: 50
+NUM_STOCKS: 5
 
 // --- 阶段 1: 测试卖方队列 (Sell-Side) 的标准 FIFO 规则 ---
 // 目标: 验证在最简单的情况下，程序是否遵守“先到先服务”。
@@ -44,11 +44,3 @@ NUM_STOCKS: 100
 40 SELL T32 S3 $300 #2
 40 SELL T31 S3 $300 #1  // 最晚到达，但 Quantity 最小
 41 BUY T30 S3 $301 #20
-
-200 BUY T50 S30 $10 #5
-200 BUY T60 S30 $10 #5
-300 SELL T70 S30 $8 #5
-
-301 BUY T51 S31 $10 #5
-301 BUY T61 S31 $10 #5
-302 SELL T71 S31 $8 #90

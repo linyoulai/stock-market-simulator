@@ -1,5 +1,0 @@
-COMMENT: Testing zero price
-MODE: TL
-NUM_TRADERS: 2
-NUM_STOCKS: 1
-0 BUY T0 S0 $0 #10 

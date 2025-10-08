@@ -1,8 +1,0 @@
-COMMENT: Testing the final, end-of-day median report. All trades at same timestamp.
-MODE: TL
-NUM_TRADERS: 40
-NUM_STOCKS: 10
-0 SELL T0 S0 $10 #10
-0 BUY T1 S0 $20 #10
-0 SELL T2 S0 $30 #10
-0 BUY T3 S0 $40 #10

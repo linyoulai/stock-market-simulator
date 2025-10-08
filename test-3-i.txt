@@ -1,0 +1,14 @@
+COMMENT: Bug 9: Testing complex price and time tie-breaking for buy orders at same price. Time Traveler logic is likely flawed.
+MODE: TL
+NUM_TRADERS: 10
+NUM_STOCKS: 1
+0 SELL T1 S0 $10 #10 // Order ID 0. Will be matched.
+0 BUY T2 S0 $11 #10  // Order ID 1. Creates a trade with ID 0. T2 buys 10 at $10. T1 is gone.
+1 SELL T3 S0 $20 #5  // Order ID 2. For Time Traveler to consider.
+1 SELL T4 S0 $20 #5  // Order ID 3. Price tie with T3. T3 is earlier.
+2 SELL T5 S0 $20 #5  // Order ID 4. Price tie with T3 and T4.
+
+3 BUY T6 S0 $20 #15  // Matches T3, T4, T5 in FIFO order at $20. T6 fulfilled.
+
+// Time Traveler should choose to buy S0 at time 1 from T3, since it's the earliest of the $20 sellers.
+// If the Time Traveler is flawed, it might buy from T4 or T5, or report an incorrect profit.

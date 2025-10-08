@@ -1,0 +1,20 @@
+COMMENT: Verification suite for correct comparators. This file tests every branch of the BuyOrderComparator and SellOrderComparator.
+MODE: TL
+NUM_TRADERS: 50
+NUM_STOCKS: 4
+10 SELL T1 S0 $300 #10 
+10 SELL T2 S0 $200 #10
+10 SELL T3 S0 $100 #10 
+11 BUY T0 S0 $301 #30  
+20 SELL T11 S1 $50 #5
+20 SELL T12 S1 $50 #5
+20 SELL T13 S1 $50 #5
+21 BUY T10 S1 $51 #15
+30 BUY T21 S2 $100 #10
+30 BUY T22 S2 $150 #10
+30 BUY T23 S2 $200 #10 
+31 SELL T20 S2 $99 #30 
+40 BUY T31 S3 $80 #5
+40 BUY T32 S3 $80 #5
+40 BUY T33 S3 $80 #5
+41 SELL T30 S3 $79 #15

@@ -1,5 +1,8 @@
-COMMENT: Testing out of bounds trader ID
+COMMENT: Testing complex partial fills. A single large sell order is matched by three smaller buy orders over time.
 MODE: TL
-NUM_TRADERS: 2
+NUM_TRADERS: 4
 NUM_STOCKS: 1
-0 BUY T2 S0 $10 #10  
+0 SELL T0 S0 $100 #100
+1 BUY T1 S0 $110 #10  
+2 BUY T2 S0 $120 #20  
+3 BUY T3 S0 $130 #30  
